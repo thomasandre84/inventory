@@ -13,47 +13,43 @@
   <packaging>pom</packaging>
 
   <build>
-    <resources>
-      <resource>
-        <directory>dist</directory>
-      </resource>
-    </resources>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.0.0</version>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.12.0</version>
         <executions>
           <execution>
-            <id>exec-npm-install</id>
-            <phase>initialize</phase>
-            <configuration>
-              <executable>npm</executable>
-              <workingDirectory>${basedir}/</workingDirectory>
-              <arguments>
-                <argument>install</argument>
-              </arguments>
-            </configuration>
+            <id>install node and npm</id>
             <goals>
-              <goal>exec</goal>
+              <goal>install-node-and-npm</goal>
             </goals>
+            <phase>generate-resources</phase>
           </execution>
           <execution>
-            <id>exec-npm-build</id>
+            <id>npm install</id>
             <goals>
-              <goal>exec</goal>
+              <goal>npm</goal>
             </goals>
-            <phase>generate-sources</phase>
+            <phase>generate-resources</phase>
             <configuration>
-              <executable>npm</executable>
-              <workingDirectory>${basedir}/</workingDirectory>
-              <arguments>
-                <argument>run</argument>
-                <argument>build</argument>
-              </arguments>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>npm build</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <arguments>run build</arguments>
             </configuration>
           </execution>
         </executions>
+        <configuration>
+          <nodeVersion>v16.9.1</nodeVersion>
+        </configuration>
       </plugin>
     </plugins>
   </build>
